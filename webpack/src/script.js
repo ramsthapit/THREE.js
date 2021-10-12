@@ -5,26 +5,51 @@ import * as THREE from 'three'
 // scene
 const scene = new THREE.Scene()
 
-// red cube
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 'blue' })
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
+// // red cube
+// const geometry = new THREE.BoxGeometry(1, 1, 1)
+// const material = new THREE.MeshBasicMaterial({ color: 'blue' })
+// const mesh = new THREE.Mesh(geometry, material)
+// scene.add(mesh)
 
-// postion
-// mesh.position.y = 0.8
-// mesh.position.x = 1
-// mesh.position.z = -3
-mesh.position.set(1,0.8,-3)
+// // postion
+// // mesh.position.y = 0.8
+// // mesh.position.x = 1
+// // mesh.position.z = -3
+// mesh.position.set(1,0.8,-3)
 
-// Scale
-mesh.scale.set(2, 1, 1)
+// // Scale
+// mesh.scale.set(2, 1, 1)
 
-// Rotation
-mesh.rotation.reorder('YXZ')
-// mesh.rotation.x = 3.14159
-mesh.rotation.y = Math.PI * 0.5
-mesh.rotation.x = Math.PI * 0.25
+// // Rotation
+// mesh.rotation.reorder('YXZ')
+// // mesh.rotation.x = 3.14159
+// mesh.rotation.y = Math.PI * 0.5
+// mesh.rotation.x = Math.PI * 0.25
+
+const group = new THREE.Group()
+group.position.y = .5
+group.scale.y = .25
+scene.add(group)
+
+const cube1 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 'red' })
+)
+scene.add(cube1)
+
+const cube2 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 'blue' })
+)
+cube2.position.set(-1,1,0.5)
+scene.add(cube2)
+
+const cube3 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 'green' })
+)
+cube3.position.set(1,1,-1)
+scene.add(cube3)
 
 // axes helper
 const axesHelper = new THREE.AxesHelper(2)
@@ -44,7 +69,7 @@ scene.add(camera)
 
 // lookAt
 // camera.lookAt(new THREE.Vector3(1,1,0))
-camera.lookAt(mesh.position)
+// camera.lookAt(mesh.position)
 
 // console.log(mesh.position.distanceTo(camera.position))
 
