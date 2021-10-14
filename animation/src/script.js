@@ -17,7 +17,7 @@ scene.add(mesh)
 // Sizes
 const sizes = {
     width: 800,
-    height: 800
+    height: 600
 }
 
 // Axeshelper
@@ -25,7 +25,9 @@ const sizes = {
 // scene.add(AxesHelper)
 
 // Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000)
+// const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000)
+const aspectRatio = sizes.width/sizes.height
+const camera = new THREE.OrthographicCamera(-1*aspectRatio, 1*aspectRatio, 1, -1, 0.1, 100)
 camera.position.z = 3
 camera.position.y = 1
 camera.position.x = 1
