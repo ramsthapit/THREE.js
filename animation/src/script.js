@@ -17,7 +17,7 @@ scene.add(mesh)
 // Sizes
 const sizes = {
     width: 800,
-    height: 600
+    height: 800
 }
 
 // Axeshelper
@@ -25,8 +25,10 @@ const sizes = {
 // scene.add(AxesHelper)
 
 // Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000)
 camera.position.z = 3
+camera.position.y = 1
+camera.position.x = 1
 scene.add(camera)
 
 // Renderer
@@ -39,7 +41,7 @@ renderer.render(scene, camera)
 // clock
 // const clock = new THREE.Clock()
 
-gsap.to(mesh.position, { duration: 1, delay: 1, x: 2})
+// gsap.to(mesh.position, { duration: 1, delay: 1, x: 1})
 
 //Animations
 const tick = () => {
@@ -48,12 +50,12 @@ const tick = () => {
     // const elapseTime = clock.getElapsedTime()
 
     // // Update objects
-    // mesh.rotation.y = elapseTime * Math.PI * 2
+    mesh.rotation.y += 0.01
     // camera.position.y = Math.cos(elapseTime)
     // // camera.position.x = Math.sin(elapseTime)
-    // camera.lookAt(mesh.position)
+    camera.lookAt(mesh.position)
     
-    // render
+    // render 
     renderer.render(scene, camera)
     
     window.requestAnimationFrame(tick)
