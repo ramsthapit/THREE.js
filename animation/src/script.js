@@ -1,5 +1,6 @@
 import './style.css'
 import * as THREE from 'three'
+import gsap from 'gsap'
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -20,8 +21,8 @@ const sizes = {
 }
 
 // Axeshelper
-const AxesHelper = new THREE.AxesHelper(2)
-scene.add(AxesHelper)
+// const AxesHelper = new THREE.AxesHelper(2)
+// scene.add(AxesHelper)
 
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
@@ -36,19 +37,21 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.render(scene, camera)
 
 // clock
-const clock = new THREE.Clock()
+// const clock = new THREE.Clock()
+
+gsap.to(mesh.position, { duration: 1, delay: 1, x: 2})
 
 //Animations
 const tick = () => {
 
-    // clock
-    const elapseTime = clock.getElapsedTime()
+    // // clock
+    // const elapseTime = clock.getElapsedTime()
 
-    // Update objects
-    mesh.rotation.y = elapseTime * Math.PI * 2
-    camera.position.y = Math.cos(elapseTime)
-    // camera.position.x = Math.sin(elapseTime)
-    camera.lookAt(mesh.position)
+    // // Update objects
+    // mesh.rotation.y = elapseTime * Math.PI * 2
+    // camera.position.y = Math.cos(elapseTime)
+    // // camera.position.x = Math.sin(elapseTime)
+    // camera.lookAt(mesh.position)
     
     // render
     renderer.render(scene, camera)
