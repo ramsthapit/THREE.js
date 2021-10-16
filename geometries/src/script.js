@@ -14,17 +14,23 @@ const scene = new THREE.Scene()
 // Object
 const geometry = new THREE.Geometry()
 
-const vertex1 = new THREE.Vector3(0, 0, 0)
-geometry.vertices.push(vertex1)
+for (let i = 0; i < 50; i++){
+    for (let j = 0; j < 3; j++){
+        geometry.vertices.push(new THREE.Vector3(
+            (Math.random()-0.5)*4,
+            (Math.random()-0.5)*4,
+            (Math.random()-0.5)*4,
+        ))
+    }
+    const verticesIndex = i * 3
+    geometry.faces.push(new THREE.Face3(
+        verticesIndex,
+        verticesIndex + 1,
+        verticesIndex + 2
+    ))
+}
 
-const vertex2 = new THREE.Vector3(0, 1, 0)
-geometry.vertices.push(vertex2)
 
-const vertex3 = new THREE.Vector3(1, 0, 0)
-geometry.vertices.push(vertex3)
-
-const face = new THREE.Face3(0, 1, 2)
-geometry.faces.push(face)
 
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
 const mesh = new THREE.Mesh(geometry, material)
