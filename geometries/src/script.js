@@ -4,8 +4,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import gsap from 'gsap'
 // Debug
-const gui = new dat.GUI({ closed: true, width: 400 })
-gui.hide()
+const gui = new dat.GUI({ closed: true })
+// gui.hide()
 
 
 const parameters = {
