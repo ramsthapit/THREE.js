@@ -6,14 +6,36 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
  * textures
  */
 
-const image = new Image()
-const texture = new THREE.Texture(image)
+const loadingManager = new THREE.LoadingManager()
 
-image.onload = () => {
-  texture.needsUpdate = true
-}
+// loadingManager.onStart = () => {
+//   console.log("ONstart");
+// }
+// loadingManager.onLoaded = () => {
+//   console.log("load");
+// }
+// loadingManager.onProgress = () => {
+//   console.log("Progress");
+// }
+// loadingManager.onError = () => {
+//   console.log("Error");
+// }
 
-image.src = '/textures/door/color.jpg'
+const textureLoader = new THREE.TextureLoader(loadingManager)
+const colorTexture = textureLoader.load('/textures/door/color.jpg')
+const alphaTexture = textureLoader.load('/textures/door/alpha.jpg')
+const heightTexture = textureLoader.load('/textures/door/height.jpg')
+const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
+const minecraftTexture = textureLoader.load('/textures/minecraft.png')
+
+// colorTexture.repeat.set(2,3) 
+// colorTexture.wrapS = THREE.RepeatWrapping
+// colorTexture.wrapT = THREE.RepeatWrapping
+
+// colorTexture.offset.x = 0.5
+
+minecraftTexture.magFilter=THREE.NearestFilter
+minecraftTexture.minFilter=THREE.NearestFilter
 
 /**
  * Base
@@ -28,7 +50,8 @@ const scene = new THREE.Scene()
  * Object
  */
 const geometry = new THREE.BoxBufferGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ map: texture })
+console.log(geometry.attributes.uv);
+const material = new THREE.MeshBasicMaterial({ map: minecraftTexture })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
