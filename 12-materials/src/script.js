@@ -1,19 +1,19 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { TextureLoader } from 'three'
+import { MeshMatcapMaterial, MeshNormalMaterial, TextureLoader } from 'three'
 
 // textures
 const textureLoader = new THREE.TextureLoader()
 
-const doorColorTesture = textureLoader.load('/textures/door/color.jpg')
-const doorAlphaTesture = textureLoader.load('/textures/door/alpha.jpg')
-const doorAmbientTesture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
-const doorHeightTesture = textureLoader.load('/textures/door/height.jpg')
-const doorMetalnessTesture = textureLoader.load('/textures/door/metalness.jpg')
-const doorNormalTesture = textureLoader.load('/textures/door/normal.jpg')
-const doorRoughnessTesture = textureLoader.load('/textures/door/roughness.jpg')
-const matcapTesture = textureLoader.load('/textures/matcaps/5.png')
+const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
+const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg')
+const doorAmbientTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
+const doorHeightTexture = textureLoader.load('/textures/door/height.jpg')
+const doorMetalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
+const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
+const doorRoughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
+const matcapTexture = textureLoader.load('/textures/matcaps/3.png')
 /**
  * Base
  */
@@ -25,7 +25,21 @@ const scene = new THREE.Scene()
 
 // Odjects
 
-const material = new THREE.MeshBasicMaterial({map: matcapTesture})
+// const material = new THREE.MeshBasicMaterial()
+// material.map = matcapTexture
+// material.color = new THREE.Color("red")
+// material.wireframe = true
+// material.opacity = .5
+// material.transparent = true
+// material.alphaMap = doorAlphaTexture
+// material.side = THREE.DoubleSide
+
+// const material = new MeshNormalMaterial()
+// material.wireframe = true
+// material.flatShading = true 
+
+const material = new THREE.MeshMatcapMaterial()
+material.matcap = matcapTexture
 
 const sphere = new THREE.Mesh(
     new THREE.SphereBufferGeometry(.5, 16, 16),
