@@ -4,6 +4,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import { Points, SpotLight } from 'three'
 
+
+// texture
+const textureLoader = new THREE.TextureLoader()
+const bakedShadow = textureLoader.load('/textures/bakedShadow.jpg')
+
 /**
  * Base
  */
@@ -99,7 +104,9 @@ sphere.castShadow = true
 
 const plane = new THREE.Mesh(
     new THREE.PlaneBufferGeometry(5, 5),
-    material
+    new THREE.MeshBasicMaterial({
+        map: bakedShadow
+    })
 )
 plane.receiveShadow = true
 
@@ -154,7 +161,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-renderer.shadowMap.enabled = true
+renderer.shadowMap.enabled = false
 renderer.shadowMap.type = THREE.PCFShadowMap
 
 /**
