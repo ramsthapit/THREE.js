@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import { RectAreaLight } from 'three'
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js'
 
 /**
  * Base
@@ -24,13 +25,14 @@ scene.add(ambientLight)
 gui.add(ambientLight, 'intensity', 0, 1, 0.0001)
 
 const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.1)
+directionalLight.position.x = 1
 scene.add(directionalLight)
 gui.add(directionalLight, 'intensity', 0, 1, 0.0001)
 
 const hemisphereLight = new THREE.HemisphereLight(0xff0000, 0x0000ff, 0.3)
 scene.add(hemisphereLight)
 
-const pointLight = new THREE.PointLight(0xffffff, 0.5, 10, 2)
+const pointLight = new THREE.PointLight(0xfffffff, 0.5, 10, 2)
 pointLight.position.set(1, -0.5, 1)
 scene.add(pointLight)
 
@@ -45,6 +47,34 @@ scene.add(spotLight)
 
 spotLight.target.position.x = -0.75
 scene.add(spotLight.target)
+
+// Helpers
+const hemisphereLightHelper = new THREE.HemisphereLightHelper(hemisphereLight, 0.2)
+scene.add(hemisphereLightHelper)
+
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 0.2)
+scene.add(directionalLightHelper)
+
+const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2)
+scene.add(pointLightHelper)
+
+const spotLightHelper = new THREE.SpotLightHelper(spotLight)
+scene.add(spotLightHelper)
+
+window.requestAnimationFrame(() => {
+    spotLightHelper.update()
+})
+
+const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight)
+scene.add(rectAreaLightHelper)
+
+window.requestAnimationFrame(() =>
+{
+    rectAreaLightHelper.position.copy(rectAreaLight.position)
+    rectAreaLightHelper.quaternion.copy(rectAreaLight.quaternion)
+    rectAreaLightHelper.update()
+})
+
 /** 
  * Objects
  */
@@ -105,6 +135,7 @@ window.addEventListener('resize', () =>
 /**
  * Camera
  */
+
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 1
