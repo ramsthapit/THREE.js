@@ -2,7 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
-import { SpotLight } from 'three'
+import { Points, SpotLight } from 'three'
 
 /**
  * Base
@@ -63,6 +63,23 @@ scene.add(spotLight.target)
 const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera)
 spotLightCameraHelper.visible = false
 scene.add(spotLightCameraHelper)
+
+// Point Light
+const pointLight = new THREE.PointLight(0xffffff, 0.3)
+
+pointLight.castShadow = true
+pointLight.shadow.width = 1024
+pointLight.shadow.height = 1024
+pointLight.shadow.camera.near = 0.1
+pointLight.shadow.camera.far = 5
+
+pointLight.position.set(-1, 1, 0)
+scene.add(pointLight)
+
+const pointLightHelper = new THREE.CameraHelper(pointLight.shadow.camera)
+pointLightHelper.visible = false
+scene.add(pointLightHelper)
+
 /**
  * Materials
  */
