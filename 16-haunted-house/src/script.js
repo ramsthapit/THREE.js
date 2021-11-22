@@ -179,7 +179,7 @@ gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 scene.add(ambientLight)
 
 // Directional light
-const moonLight = new THREE.DirectionalLight('#ffffff', 0.5)
+const moonLight = new THREE.DirectionalLight('#ffffff', 0.1)
 moonLight.position.set(4, 5, - 2)
 gui.add(moonLight, 'intensity').min(0).max(1).step(0.001)
 gui.add(moonLight.position, 'x').min(- 5).max(5).step(0.001)
@@ -191,6 +191,13 @@ scene.add(moonLight)
 const doorLight = new THREE.PointLight('#ff7d46', 1, 7)
 doorLight.position.set(0, 2.2, 2.7)
 house.add(doorLight)
+
+// Ghosts
+const ghost1 = new THREE.PointLight('#ff00ff', 3, 3)
+const ghost2 = new THREE.PointLight('#00ffff', 3, 3)
+const ghost3 = new THREE.PointLight('#f0ff00', 3, 3)
+
+scene.add(ghost1, ghost2, ghost3)
 
 /**
  * Sizes
@@ -238,6 +245,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.setClearColor('#262837')
+
 /**
  * Animate
  */
@@ -246,6 +254,22 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    // Update ghosts
+    const ghost1Angle = elapsedTime * 0.5
+    ghost1.position.x = Math.cos(ghost1Angle) * 4
+    ghost1.position.z = Math.sin(ghost1Angle) * 4
+    ghost1.position.y = Math.sin(elapsedTime * 3)
+
+    const ghost2Angle = -elapsedTime * 0.3   
+    ghost2.position.z = Math.sin(ghost2Angle) * 5
+    ghost2.position.x = Math.cos(ghost2Angle) * 5
+    ghost2.position.y = Math.sin(elapsedTime * 5)
+
+    const ghost3Angle = -elapsedTime * 0.9   
+    ghost3.position.z = Math.sin(ghost3Angle) * 8
+    ghost3.position.x = Math.cos(ghost3Angle) * 8
+    ghost3.position.y = Math.sin(elapsedTime * 5) + Math.sin(elapsedTime * 2)
 
     // Update controls
     controls.update()
