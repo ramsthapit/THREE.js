@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
+import { AdditiveBlending } from 'three'
 
 /**
  * Base
@@ -19,16 +20,20 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const particlesTextures = textureLoader.load('/textures/particles/2.png')
 
 // Particles
 const particlesGeometry = new THREE.BufferGeometry()
 const count = 5000
 
 const position = new Float32Array(count * 3)
+const colors = new Float32Array(count * 3)
+
 
 for (let i = 0; i < count * 3; i++)
 {
     position[i] = (Math.random() - 0.5) * 10
+    colors[i]= Math.random()
 }
 
 particlesGeometry.setAttribute(
@@ -36,9 +41,23 @@ particlesGeometry.setAttribute(
     new THREE.BufferAttribute(position, 3)
 )
 
+particlesGeometry.setAttribute(
+    'color',
+    new THREE.BufferAttribute(colors, 3)
+)
+
+// Material
 const particlesMaterial = new THREE.PointsMaterial({
-    size: 0.02,
-    sizeAttenuation: true
+    color: new THREE.Color('#ff88cc'),
+    size: 0.1,
+    sizeAttenuation: true,
+    transparent: true,
+    alphaMap: particlesTextures,
+    // alphaTest: 0.001,
+    // depthTest: false,
+    depthWrite: false,
+    blending: AdditiveBlending,
+    vertexColors: true
 })
 
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
