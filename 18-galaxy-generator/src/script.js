@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
+import { BufferGeometry, Geometry } from 'three'
 
 /**
  * Base
@@ -18,9 +19,58 @@ const scene = new THREE.Scene()
 /**
  * Galaxy
  */
+
+const parameters = {}
+parameters.count = 1000 
+parameters.size = 0.02
+
+let geometry = null
+let material = null
+let points = null
+
 const generateGalaxy = () => {
-    parameters.count = 1000
+
+    // Destory old galaxy
+    if (points !== null)
+    {
+        geometry.dispose()
+        material.dispose()
+        scene.remove(points)
+    }
+
+    // geometry
+    geometry = new THREE.BufferGeometry()
+    const position = new Float32Array(parameters.count * 3)
+    for (let i = 0; i < parameters.count; i++)
+    {
+        const i3 = i + 3
+        position[i3 + 1] = (Math.random() - 0.5) * 3  
+        position[i3 + 0] = (Math.random() - 0.5) * 3
+        position[i3 + 2] = (Math.random() - 0.5) * 3
+    }
+
+    geometry.setAttribute(
+        'position',
+        new THREE.BufferAttribute(position, 3)
+    )
+    
+    material = new THREE.PointsMaterial({
+        size: parameters.size,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+        
+    })
+
+    points = new THREE.Points(geometry, material)
+    scene.add(points)
 }
+
+generateGalaxy()
+
+gui.add(parameters, 'count', 100, 100000, 100).onFinishChange(generateGalaxy)
+gui.add(parameters, 'size', 0.001, 0.1, 0.001).onFinishChange(generateGalaxy)
+
 
 /**
  * Sizes
