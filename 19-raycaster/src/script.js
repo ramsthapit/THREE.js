@@ -86,6 +86,14 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+// Mouse
+const mouse = new THREE.Vector2()
+
+window.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX / sizes.width * 2 - 1
+    mouse.y = -(event.clientY / sizes.height * 2 - 1)
+})
+
 /**
  * Animate
  */
@@ -100,11 +108,15 @@ const tick = () =>
     object2.position.y = Math.sin(elapsedTime * 0.5) * 1.5
     object3.position.y = Math.sin(elapsedTime) * 1.5
     
-    const rayOrigin = new THREE.Vector3(-3, 0, 0)
-    const rayDirection = new THREE.Vector3(1, 0, 0)
-    rayDirection.normalize()
+    // cast Ray
+    raycaster.setFromCamera(mouse, camera)
+    
 
-    raycaster.set(rayOrigin, rayDirection)
+    // const rayOrigin = new THREE.Vector3(-3, 0, 0)
+    // const rayDirection = new THREE.Vector3(1, 0, 0)
+    // rayDirection.normalize()
+
+    // raycaster.set(rayOrigin, rayDirection)
 
     const objectToTest = [object1, object2, object3]
     const intersects = raycaster.intersectObjects(objectToTest)
