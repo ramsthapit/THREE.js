@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as dat from 'dat.gui'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
+import { GreaterStencilFunc } from 'three'
 
 /**
  * Base
@@ -26,15 +27,25 @@ dracoLoader.setDecoderPath('/draco/')
 const gltfLoader = new GLTFLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
 
+let mixer = null
+
 gltfLoader.load(
-    '/models/Duck/glTF-Draco/Duck.gltf',
+    '/models/Fox/glTF/Fox.gltf',
     (gltf) => {
         // const children = [...gltf.scene.children]
         // for (const child of children)
         // {
         //     scene.add(child)
         // }
+        console.log(gltf);
+        mixer = new THREE.AnimationMixer(gltf.scene)
+        const action = mixer.clipAction(gltf.animations[1])
+
+        action.play()
+
+        gltf.scene.scale.set(0.025, 0.025, 0.025)
         scene.add(gltf.scene)
+
     },
 )
 
@@ -129,6 +140,12 @@ const tick = () =>
     const deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime
 
+    // Update mixer
+    if (mixer !== null)
+    {
+        mixer.update(deltaTime)
+    }
+    
     // Update controls
     controls.update()
 
