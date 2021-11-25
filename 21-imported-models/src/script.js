@@ -1,6 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as dat from 'dat.gui'
 
 /**
@@ -14,6 +15,24 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+/**
+ * Models
+ */
+const gltfLoader = new GLTFLoader()
+
+gltfLoader.load(
+    '/models/FlightHelmet/glTF/FlightHelmet.gltf',
+    (gltf) => {
+        // const children = [...gltf.scene.children]
+        // for (const child of children)
+        // {
+        //     scene.add(child)
+        // }
+        scene.add(gltf.scene)
+    },
+)
+
 
 /**
  * Floor
