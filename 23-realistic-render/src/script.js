@@ -8,18 +8,33 @@ import { GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
  * Loaders
  */
 const gltfLoader = new GLTFLoader()
+const cubeTextureLoader = new THREE.CubeTextureLoader()
 
 /**
  * Base
  */
 // Debug
 const gui = new dat.GUI()
+const debugObject = {}
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+/**
+ * Update  all materials 
+ */
+const updateAllMaterials = () => {
+    scene.traverse((child) => {
+        if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial)
+            {
+                child.material.envMap = environmentMap
+                child.material.envMapIntensity = debugObject.envMapIntensity
+            }
+    })
+}
 
 /**
  * Models
@@ -35,21 +50,38 @@ gltfLoader.load(
         gui
             .add(gltf.scene.rotation, 'y', -Math.PI, Math.PI, 0.001)
             .name('rotation')
-
+        updateAllMaterials()
     }
 )
 
 /**
+ * Environment Map
+ */
+const environmentMap = cubeTextureLoader.load([
+    '/textures/environmentMaps/0/px.jpg',
+    '/textures/environmentMaps/0/nx.jpg',
+    '/textures/environmentMaps/0/py.jpg',
+    '/textures/environmentMaps/0/ny.jpg',
+    '/textures/environmentMaps/0/pz.jpg',
+    '/textures/environmentMaps/0/nz.jpg',
+])
+scene.background = environmentMap
+scene.environment = environmentMap
+
+debugObject.envMapIntensity = 5
+gui.add(debugObject, 'envMapIntensity', 0, 10, 0.001).onChange(updateAllMaterials)
+
+/**
  * Lights
  */
-const directionalLight = new THREE.DirectionalLight('#ffffff', 1)
+const directionalLight = new THREE.DirectionalLight('#ffffff', 5)
 directionalLight.position.set(0.25, 3, -2.25)
 scene.add(directionalLight)
 
 gui.add(directionalLight, 'intensity', 0, 10, 0.001).name('LightIntensity')
-gui.add(directionalLight.position, 'x', -5, 5, 0.001).name('LightPosition')
-gui.add(directionalLight.position, 'y', -5, 5, 0.001).name('LightPosition')
-gui.add(directionalLight.position, 'z', -5, 5, 0.001).name('LightPosition')
+gui.add(directionalLight.position, 'x', -5, 5, 0.001).name('LightX')
+gui.add(directionalLight.position, 'y', -5, 5, 0.001).name('LightY')
+gui.add(directionalLight.position, 'z', -5, 5, 0.001).name('LightZ')
 
 
 /**
