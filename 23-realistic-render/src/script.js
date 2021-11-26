@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import { GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
+import { DirectionalLightShadow } from 'three'
 
 /**
  * Loaders
@@ -31,8 +32,10 @@ const updateAllMaterials = () => {
         if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial)
             {
                 // child.material.envMap = environmentMap
-                child.material.envMapIntensity = debugObject.envMapIntensity
-                child.material.needsUpdate = true 
+            child.material.envMapIntensity = debugObject.envMapIntensity
+            child.material.needsUpdate = true
+            child.castShadow = true
+            child.receiveShadow = true
             }
     })
 }
@@ -78,7 +81,13 @@ gui.add(debugObject, 'envMapIntensity', 0, 10, 0.001).onChange(updateAllMaterial
  */
 const directionalLight = new THREE.DirectionalLight('#ffffff', 5)
 directionalLight.position.set(0.25, 3, -2.25)
+directionalLight.castShadow = true
+directionalLight.shadow.camera.far = 15
+directionalLight.shadow.mapSize.set(1024, 1024)
 scene.add(directionalLight)
+
+const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+// scene.add(directionalLightCameraHelper)
 
 gui.add(directionalLight, 'intensity', 0, 10, 0.001).name('LightIntensity')
 gui.add(directionalLight.position, 'x', -5, 5, 0.001).name('LightX')
@@ -125,7 +134,8 @@ controls.enableDamping = true
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    antialias: true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -133,6 +143,8 @@ renderer.physicallyCorrectLights = true
 renderer.outputEncoding = THREE.sRGBEncoding
 renderer.toneMapping = THREE.ACESFilmicToneMapping
 renderer.toneMappingExposure = 3
+renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFShadowMap
 
 gui
     .add(renderer, 'toneMapping', {
