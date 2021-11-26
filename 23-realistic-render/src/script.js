@@ -3,7 +3,6 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import { GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
-import { DirectionalLightShadow } from 'three'
 
 /**
  * Loaders
@@ -44,9 +43,9 @@ const updateAllMaterials = () => {
  * Models
  */
 gltfLoader.load(
-    '/models/FlightHelmet/glTF/FlightHelmet.gltf',
+    '/models/hamburger.glb',
     (gltf) => {
-        gltf.scene.scale.set(10, 10, 10)
+        gltf.scene.scale.set(0.3, 0.3, 0.3)
         gltf.scene.position.set(0, -4, 0)
         gltf.scene.rotation.y = Math.PI * 0.5
         scene.add(gltf.scene)
@@ -62,12 +61,12 @@ gltfLoader.load(
  * Environment Map
  */
 const environmentMap = cubeTextureLoader.load([
-    '/textures/environmentMaps/0/px.jpg',
-    '/textures/environmentMaps/0/nx.jpg',
-    '/textures/environmentMaps/0/py.jpg',
-    '/textures/environmentMaps/0/ny.jpg',
-    '/textures/environmentMaps/0/pz.jpg',
-    '/textures/environmentMaps/0/nz.jpg',
+    '/textures/environmentMaps/3/px.jpg',
+    '/textures/environmentMaps/3/nx.jpg',
+    '/textures/environmentMaps/3/py.jpg',
+    '/textures/environmentMaps/3/ny.jpg',
+    '/textures/environmentMaps/3/pz.jpg',
+    '/textures/environmentMaps/3/nz.jpg',
 ])
 environmentMap.encoding = THREE.sRGBEncoding
 scene.background = environmentMap
@@ -84,6 +83,7 @@ directionalLight.position.set(0.25, 3, -2.25)
 directionalLight.castShadow = true
 directionalLight.shadow.camera.far = 15
 directionalLight.shadow.mapSize.set(1024, 1024)
+directionalLight.shadow.normalBias = 0.05
 scene.add(directionalLight)
 
 const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
