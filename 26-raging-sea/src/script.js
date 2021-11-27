@@ -27,8 +27,18 @@ const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 128, 128)
 // Material
 const waterMaterial = new THREE.ShaderMaterial({
     vertexShader: waterVertexShader,
-    fragmentShader: waterFragmentShader
+    fragmentShader: waterFragmentShader,
+    uniforms:
+    {
+        uBigWavesElevation: { value: 0.2 },
+        uBigWavesFrequency: {value: new THREE.Vector2(4, 1.5)}
+    }
 })
+
+// Debug
+gui.add(waterMaterial.uniforms.uBigWavesElevation, 'value', 0, 1, 0.001).name('uBigWavesElevation')
+gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'x', 0, 10, 0.001).name('uBigWavesFrequencyX')
+gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'y', 0, 10, 0.001).name('uBigWavesFrequencyY')
 
 // Mesh
 const water = new THREE.Mesh(waterGeometry, waterMaterial)
@@ -57,7 +67,7 @@ window.addEventListener('resize', () =>
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
-
+ 
 /**
  * Camera
  */
