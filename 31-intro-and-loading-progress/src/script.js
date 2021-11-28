@@ -2,19 +2,23 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { gsap } from 'gsap'
 
 /**
  * Loaders
  */
+const loadingBarElement = document.querySelector('.loading-bar')
+
 const loadingManager = new THREE.LoadingManager(
     // Loaded
     () => {
-        console.log('loaded');
+        gsap.to(overlayMaterial.uniforms.uAlpha, { duration: 3, value: 0})
     },
-
+    
     // Progress
-    () => {
-        console.log('Progress');
+    (itemUrl, itemLoaded, itemsTotal) => {
+        const progressRatio = itemLoaded / itemsTotal
+        loadingBarElement.style.transform = `scaleX(${progressRatio})`
     }
 )
 
@@ -38,7 +42,7 @@ const overlayGeometry = new THREE.PlaneBufferGeometry(2, 2, 1, 1)
 const overlayMaterial = new THREE.ShaderMaterial({
     transparent: true,
     uniforms: {
-      uAlpha: { value: 0}  
+      uAlpha: { value: 1}  
     },
     vertexShader: `
         void main()
@@ -47,12 +51,12 @@ const overlayMaterial = new THREE.ShaderMaterial({
         }
     `,
     fragmentShader: `
-    uniform float uAlpha;
+        uniform float uAlpha;
 
-    void main()
-    {
-        gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
-    }
+        void main()
+        {
+            gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
+        }
     `
  })
 const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
