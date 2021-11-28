@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import galaxyVertexShader from './shaders/galaxy/vertex.glsl'
 import galaxyFragmentShader from './shaders/galaxy/fragment.glsl'
+import { ZeroSlopeEnding } from 'three'
   
 
 /**
@@ -119,6 +120,7 @@ const generateGalaxy = () =>
     scene.add(points)
 }
 
+const speed = { value: 1};
 
 gui.add(parameters, 'count').min(100).max(1000000).step(100).onFinishChange(generateGalaxy)
 gui.add(parameters, 'radius').min(0.01).max(20).step(0.01).onFinishChange(generateGalaxy)
@@ -127,6 +129,7 @@ gui.add(parameters, 'randomness').min(0).max(2).step(0.001).onFinishChange(gener
 gui.add(parameters, 'randomnessPower').min(1).max(10).step(0.001).onFinishChange(generateGalaxy)
 gui.addColor(parameters, 'insideColor').onFinishChange(generateGalaxy)
 gui.addColor(parameters, 'outsideColor').onFinishChange(generateGalaxy)
+gui.add(speed, 'value', 0, 30, 0.001).name('speed')
 
 /**
  * Sizes
@@ -187,7 +190,7 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update Materials
-    material.uniforms.uTime.value = elapsedTime
+    material.uniforms.uTime.value = elapsedTime * speed.value
 
     // Update controls
     controls.update()
