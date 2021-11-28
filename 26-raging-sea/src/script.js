@@ -11,6 +11,7 @@ import waterFragmentShader from './shaders/water/fragment.glsl'
  */
 // Debug
 const gui = new dat.GUI({ width: 340 })
+const debugObject = {} 
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -24,16 +25,26 @@ const scene = new THREE.Scene()
 // Geometry
 const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 128, 128)
 
+// Color
+debugObject.depthColor = '#186691'
+debugObject.surfaceColor = '#9bd8ff'
+
 // Material
 const waterMaterial = new THREE.ShaderMaterial({
     vertexShader: waterVertexShader,
     fragmentShader: waterFragmentShader,
     uniforms:
     {
-        uTime: { value: 0},
+        uTime: { value: 0 },
+        
         uBigWavesElevation: { value: 0.2 },
         uBigWavesFrequency: { value: new THREE.Vector2(4, 1.5) },
-        uBigWavesSpeed: { value: 0.5},
+        uBigWavesSpeed: { value: 0.75 },
+        
+        uDepthColor: { value: new THREE.Color(debugObject.depthColor) },
+        uSurfaceColor: { value: new THREE.Color(debugObject.surfaceColor) },
+        uColorOffset: { value: 0.25 },
+        uColorMultiplier: { value: 5}
     }
 })
 
@@ -42,6 +53,21 @@ gui.add(waterMaterial.uniforms.uBigWavesElevation, 'value', 0, 1, 0.001).name('u
 gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'x', 0, 10, 0.001).name('uBigWavesFrequencyX')
 gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'y', 0, 10, 0.001).name('uBigWavesFrequencyY')
 gui.add(waterMaterial.uniforms.uBigWavesSpeed, 'value', 0, 4, 0.0001).name('uBigWavesSpeed')
+gui
+    .addColor(debugObject, 'depthColor')
+    .name('depthColor')
+    .onChange(() => {
+        waterMaterial.uniforms.uDepthColor.value.set(debugObject.depthColor)
+    })
+gui
+    .addColor(debugObject, 'surfaceColor')
+    .name('surfaceColor')
+    .onChange(() => {
+        waterMaterial.uniforms.uSurfaceColor.value.set(debugObject.surfaceColor)
+    })
+gui.add(waterMaterial.uniforms.uColorMultiplier, 'value', 0, 10, 0.001).name("ColorMultiplier");
+gui.add(waterMaterial.uniforms.uColorOffset, 'value', 0, 1, 0.00001).name("ColorOffset");
+
 
 // Mesh
 const water = new THREE.Mesh(waterGeometry, waterMaterial)
