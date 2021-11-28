@@ -23,7 +23,7 @@ const scene = new THREE.Scene()
  * Water
  */
 // Geometry
-const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 128, 128)
+const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 512, 512)
 
 // Color
 debugObject.depthColor = '#186691'
@@ -40,11 +40,16 @@ const waterMaterial = new THREE.ShaderMaterial({
         uBigWavesElevation: { value: 0.2 },
         uBigWavesFrequency: { value: new THREE.Vector2(4, 1.5) },
         uBigWavesSpeed: { value: 0.75 },
+
+        uSmallWavesElevation: { value: 0.15 },
+        uSmallWavesFrequency: { value: 3 },
+        uSmallWavesSpeed: { value: 0.2 },
+        uSmallWavesIterations: { value: 4 },
         
         uDepthColor: { value: new THREE.Color(debugObject.depthColor) },
         uSurfaceColor: { value: new THREE.Color(debugObject.surfaceColor) },
-        uColorOffset: { value: 0.25 },
-        uColorMultiplier: { value: 5}
+        uColorOffset: { value: 0.08 },
+        uColorMultiplier: { value: 5 },
     }
 })
 
@@ -53,6 +58,12 @@ gui.add(waterMaterial.uniforms.uBigWavesElevation, 'value', 0, 1, 0.001).name('u
 gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'x', 0, 10, 0.001).name('uBigWavesFrequencyX')
 gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'y', 0, 10, 0.001).name('uBigWavesFrequencyY')
 gui.add(waterMaterial.uniforms.uBigWavesSpeed, 'value', 0, 4, 0.0001).name('uBigWavesSpeed')
+
+gui.add(waterMaterial.uniforms.uSmallWavesElevation, 'value', 0, 1, 0.0001).name('uSmallWavesElevation')
+gui.add(waterMaterial.uniforms.uSmallWavesFrequency, 'value', 0, 10, 0.001).name('uSmallWavesFrequency')
+gui.add(waterMaterial.uniforms.uSmallWavesSpeed, 'value', 0, 1, 0.0001).name('uSmallWavesSpeed')
+gui.add(waterMaterial.uniforms.uSmallWavesIterations, 'value', 0, 10, 1).name('uSmallWavesIterations')
+
 gui
     .addColor(debugObject, 'depthColor')
     .name('depthColor')
