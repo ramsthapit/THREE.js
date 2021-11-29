@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { gsap } from 'gsap'
+import { Raycaster } from 'three'
 
 /**
  * Loaders
@@ -129,7 +130,7 @@ gltfLoader.load(
 )
 
 // Points of interest
-
+const raycaster = new Raycaster()
 const points = [
     {
         position: new THREE.Vector3(1.55, 0.3, -0.6),
@@ -211,6 +212,35 @@ const tick = () =>
     for (const point of points)
     {
         const screenPosition = point.position.clone()
+        screenPosition.project(camera)
+
+        raycaster.setFromCamera(screenPosition, camera)
+        const intersects = raycaster.intersectObjects(scene.children, true)
+        
+        if (intersects.length === 0)
+        {
+            point.element.classList.add('visible')
+        }
+        else
+        {
+            const intersectionDistance = intersects[0].distance
+            const pointDistance = point.position.distanceTo(camera.position)
+            
+            if (intersectionDistance < pointDistance)
+            {
+               point.element.classList.remove('visible') 
+            }
+            else
+            {
+                point.element.classList.add('visible')
+            }
+            
+        }
+
+        const translateX = screenPosition.x * sizes.width * 0.5
+        const translateY = - screenPosition.y * sizes.height * 0.5
+        point.element.style.transform = `translate(${translateX}px, ${translateY}px)`
+
     }
 
     // Render
