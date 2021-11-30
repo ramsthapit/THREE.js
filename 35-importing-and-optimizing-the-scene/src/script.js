@@ -6,6 +6,14 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
 /**
+ * Spector JS
+ */
+// const SPECTOR = require('spectorjs')
+// spector = new SPECTOR.Spector()
+// spector.displayUI()
+
+
+/**
  * Base
  */
 // Debug
@@ -43,7 +51,7 @@ bakedTexture.encoding = THREE.sRGBEncoding
 /**
  * Materials
  */
-const bakeMaterial = new THREE.MeshBasicMaterial({
+const bakedMaterial = new THREE.MeshBasicMaterial({
     map: bakedTexture
 })
 
@@ -60,13 +68,12 @@ const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5})
 gltfLoader.load(
     'portal.glb',
     (gltf) => {
-        gltf.scene.traverse((child) => {
-            child.material = bakeMaterial
-        })
+        const bakedMesh = gltf.scene.children.find((child) => child.name ==='baked')
         const poleLightMesh = gltf.scene.children.find((child) => child.name ==='poleLight')
         const poleLightAMesh = gltf.scene.children.find((child) => child.name ==='poleLightA')
         const poleLightBMesh = gltf.scene.children.find((child) => child.name ==='poleLightB')
         
+        bakedMesh.material = bakedMaterial
         poleLightMesh.material = portalLightMaterial
         poleLightAMesh.material = poleLightMaterial
         poleLightBMesh.material = poleLightMaterial
