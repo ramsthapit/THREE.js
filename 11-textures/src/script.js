@@ -22,11 +22,11 @@ const loadingManager = new THREE.LoadingManager()
 // }
 
 const textureLoader = new THREE.TextureLoader(loadingManager)
-const colorTexture = textureLoader.load('/textures/door/color.jpg')
-const alphaTexture = textureLoader.load('/textures/door/alpha.jpg')
-const heightTexture = textureLoader.load('/textures/door/height.jpg')
-const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
-const minecraftTexture = textureLoader.load('/textures/minecraft.png')
+const colorTexture = textureLoader.load('textures/door/color.jpg')
+const alphaTexture = textureLoader.load('textures/door/alpha.jpg')
+const heightTexture = textureLoader.load('textures/door/height.jpg')
+const metalnessTexture = textureLoader.load('textures/door/metalness.jpg')
+const minecraftTexture = textureLoader.load('textures/minecraft.png')
 
 // colorTexture.repeat.set(2,3) 
 // colorTexture.wrapS = THREE.RepeatWrapping

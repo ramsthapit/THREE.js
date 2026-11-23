@@ -7,8 +7,8 @@ import { Points, SpotLight } from 'three'
 
 // texture
 const textureLoader = new THREE.TextureLoader()
-const bakedShadow = textureLoader.load('/textures/bakedShadow.jpg')
-const simpleShadow = textureLoader.load('/textures/simpleShadow.jpg')
+const bakedShadow = textureLoader.load('textures/bakedShadow.jpg')
+const simpleShadow = textureLoader.load('textures/simpleShadow.jpg')
 
 /**
  * Base

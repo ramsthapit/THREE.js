@@ -46,7 +46,7 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Sound
-const hitSound = new Audio('/sounds/hit.mp3')
+const hitSound = new Audio('sounds/hit.mp3')
 
 const playHitSound = (collision) => {
     const impactStrength = collision.contact.getImpactVelocityAlongNormal()
@@ -65,12 +65,12 @@ const textureLoader = new THREE.TextureLoader()
 const cubeTextureLoader = new THREE.CubeTextureLoader()
 
 const environmentMapTexture = cubeTextureLoader.load([
-    '/textures/environmentMaps/0/px.png',
-    '/textures/environmentMaps/0/nx.png',
-    '/textures/environmentMaps/0/py.png',
-    '/textures/environmentMaps/0/ny.png',
-    '/textures/environmentMaps/0/pz.png',
-    '/textures/environmentMaps/0/nz.png'
+    'textures/environmentMaps/0/px.png',
+    'textures/environmentMaps/0/nx.png',
+    'textures/environmentMaps/0/py.png',
+    'textures/environmentMaps/0/ny.png',
+    'textures/environmentMaps/0/pz.png',
+    'textures/environmentMaps/0/nz.png'
 ])
 
 /**

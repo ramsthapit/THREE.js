@@ -43,7 +43,7 @@ const updateAllMaterials = () => {
  * Models
  */
 gltfLoader.load(
-    '/models/hamburger.glb',
+    'models/hamburger.glb',
     (gltf) => {
         gltf.scene.scale.set(0.3, 0.3, 0.3)
         gltf.scene.position.set(0, -4, 0)
@@ -61,12 +61,12 @@ gltfLoader.load(
  * Environment Map
  */
 const environmentMap = cubeTextureLoader.load([
-    '/textures/environmentMaps/3/px.jpg',
-    '/textures/environmentMaps/3/nx.jpg',
-    '/textures/environmentMaps/3/py.jpg',
-    '/textures/environmentMaps/3/ny.jpg',
-    '/textures/environmentMaps/3/pz.jpg',
-    '/textures/environmentMaps/3/nz.jpg',
+    'textures/environmentMaps/3/px.jpg',
+    'textures/environmentMaps/3/nx.jpg',
+    'textures/environmentMaps/3/py.jpg',
+    'textures/environmentMaps/3/ny.jpg',
+    'textures/environmentMaps/3/pz.jpg',
+    'textures/environmentMaps/3/nz.jpg',
 ])
 environmentMap.encoding = THREE.sRGBEncoding
 scene.background = environmentMap
